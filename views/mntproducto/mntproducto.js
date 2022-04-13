@@ -117,6 +117,7 @@ function eliminar(prod_id) {
             
             $.post("../../controller/producto.php?op=eliminar",{prod_id: prod_id});
 
+            $('#producto_data').DataTable().ajax.reload();
             
             Swal.fire(
                 'Eliminado!',
@@ -124,8 +125,7 @@ function eliminar(prod_id) {
                 'success'
                 )
             }
-            $('#producto_data').DataTable().ajax.reload();
-      })
+        })
 }
 
 
