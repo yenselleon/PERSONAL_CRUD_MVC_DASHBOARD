@@ -24,8 +24,8 @@
             parent::set_names();
             $sql="UPDATE tm_producto
                 SET
-                    est=0,
-                    fech_elim=now()
+                    estado=0,
+                    fecha_elimina=now()
                 WHERE
                     prod_id = ?";
             $sql=$conectar->prepare($sql);
@@ -37,7 +37,7 @@
         public function insert_producto($prod_nom){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tm_producto (prod_id, prod_nom, fech_crea, fech_modi, fech_elim, est) VALUES (NULL, ?, now(), NULL, NULL, 1);";
+            $sql="INSERT INTO tm_producto (prod_id, prod_nom, fecha_crea, fecha_mod, fecha_elimina, estado) VALUES (NULL, ?, now(), NULL, NULL, 1);";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1,$prod_nom);
             $sql->execute();
@@ -50,7 +50,7 @@
             $sql="UPDATE tm_producto
                 SET
                     prod_nom=?,
-                    fech_modi=now()
+                    fecha_mod=now()
                 WHERE
                     prod_id = ?";
             $sql=$conectar->prepare($sql);

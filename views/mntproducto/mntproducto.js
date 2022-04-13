@@ -1,8 +1,35 @@
 let tabla;
 
 const init = ()=> {
+    $("#producto_form").on("submit", function(e){
+        guardaryeditar(e);
+    });
 
+}
 
+function guardaryeditar(e) {
+    e.preventDefault();
+    let formData = new FormData($("#producto_form")[0]);
+
+    $.ajax({
+        url: "../../controller/producto.php?op=guardaryeditar",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(datos){
+
+            $('#producto_form')[0].reset();
+            $("#modalmantenimiento").modal('hide');
+            $('#producto_data').DataTable().ajax.reload();
+
+            swal.fire(
+                'Registro!',
+                'El registro correctamente.',
+                'success'
+            )
+        }
+    });
 }
 
 
@@ -59,5 +86,41 @@ $(document).ready(()=> {
     
 });
 
+function editar($prod_id) {
+    console.log($prod_id);
+}
+
+function eliminar(prod_id) {
+
+    Swal.fire({
+        title: 'Crud',
+        text: "Desea eliminar el registro?",
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'no',
+        confirmButtonText: 'Si'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            
+            $.post("../../controller/producto.php?op=eliminar",{prod_id: prod_id});
+
+            
+            Swal.fire(
+                'Eliminado!',
+                'El registro se elimino correctamente.',
+                'success'
+                )
+            }
+            $('#producto_data').DataTable().ajax.reload();
+      })
+}
+
+
+$(document).on("click", "#btnnuevo", function(){
+    $('mdltitulo').html('Nuevo Registro');
+    $('#modalmantenimiento').modal('show');
+})
 
 init();
